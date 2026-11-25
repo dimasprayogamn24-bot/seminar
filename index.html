@@ -8,77 +8,255 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    :root{--sky:#dff3ff;--light:#a9d9f5;--blue:#66b5e8;--ocean:#287fc1;--navy:#123b66;--white:#fff;--grey:#f3f7fa;--sand:#e8cfa7;--ink:#193955;--muted:#607a91;--shadow:0 18px 45px rgba(18,59,102,.11);--radius:22px}
-    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{font-family:'DM Sans',sans-serif;color:var(--ink);background:#eaf5fb}button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid var(--sand);outline-offset:3px}
-    .presentation{height:100dvh;width:100vw;display:grid;place-items:center;position:relative}.stage{width:min(100vw,177.7778vh);height:min(56.25vw,100vh);position:relative;overflow:hidden;background:var(--white);box-shadow:0 24px 80px rgba(18,59,102,.12)}
-    .slide{position:absolute;inset:0;display:none;overflow:hidden;padding:4.2%;background:var(--grey)}.slide.active{display:block;animation:slide-enter .72s cubic-bezier(.2,.8,.2,1) both}@keyframes slide-enter{from{opacity:0;transform:translateX(3%) scale(.985);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
-    .slide:before{content:'';position:absolute;inset:-25% -10% auto auto;width:48%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(169,217,245,.45),transparent 68%);pointer-events:none}.eyebrow{display:flex;align-items:center;gap:10px;color:var(--ocean);font-size:clamp(15px,.95vw,20px);font-weight:800;letter-spacing:.13em;text-transform:uppercase}.eyebrow:before{content:'';width:36px;height:3px;background:var(--sand)}
-    .slide-title{position:relative;margin:8px 0 22px;color:var(--navy);font:700 clamp(36px,3.1vw,60px)/1.08 'Playfair Display',serif}.card{border:1px solid rgba(18,59,102,.08);border-radius:var(--radius);background:rgba(255,255,255,.96);box-shadow:var(--shadow);transform-style:preserve-3d;transition:transform .22s ease,box-shadow .25s ease}.card:hover{box-shadow:0 22px 50px rgba(18,59,102,.16)}
+    :root {
+      color-scheme: light;
+      --sky: #dff3ff;
+      --light: #a9d9f5;
+      --blue: #66b5e8;
+      --ocean: #287fc1;
+      --navy: #123b66;
+      --white: #fff;
+      --grey: #f3f7fa;
+      --sand: #e8cfa7;
+      --ink: #193955;
+      --muted: #607a91;
+      --shadow: 0 12px 32px rgba(18, 59, 102, .12);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--ink); background: #eaf5fb; }
+    button { font: inherit; }
+    .presentation { min-height: 100vh; display: grid; place-items: center; padding: 18px 18px 76px; }
+    .stage { position: relative; width: min(100%, 1280px); height: min(780px, calc(100vh - 106px)); min-height: 500px; overflow: hidden; border-radius: 22px; background: var(--grey); box-shadow: var(--shadow); }
+    .slide { display: none; position: absolute; inset: 0; overflow: auto; padding: clamp(24px, 4vw, 56px); background: var(--grey); }
+    .slide.active { display: block; animation: enter .28s ease-out; }
+    @keyframes enter { from { opacity: .7; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    .eyebrow { display: inline-block; color: var(--ocean); font-size: clamp(.72rem, 1vw, .88rem); font-weight: 800; letter-spacing: .12em; line-height: 1.45; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    .slide-title { margin: 8px 0 22px; color: var(--navy); font: 700 clamp(1.75rem, 3vw, 2.65rem)/1.16 'Playfair Display', serif; overflow-wrap: anywhere; }
+    .card { min-width: 0; padding: clamp(16px, 2vw, 24px); border: 1px solid rgba(18, 59, 102, .08); border-radius: 16px; background: var(--white); box-shadow: 0 6px 20px rgba(18, 59, 102, .07); }
+    .panel-heading { margin: 0 0 12px; color: var(--navy); font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.3; }
+    .muted { color: var(--muted); }
     /* Cover */
-    .hero{padding:0;display:grid;grid-template-columns:55% 45%;background:linear-gradient(120deg,#fff 0%,var(--sky) 61%,var(--light) 100%)}.hero.active{display:grid}.hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:6% 3% 12% 8%}.hero h1{max-width:95%;margin:16px 0;color:var(--navy);font:800 clamp(44px,4.7vw,86px)/1.02 'Playfair Display',serif}.research{max-width:91%;border-left:5px solid var(--sand);padding-left:19px;font-size:clamp(20px,1.55vw,29px);line-height:1.45;font-weight:600}.student{display:flex;align-items:center;gap:14px;margin-top:22px}.avatar{width:62px;height:62px;display:grid;place-items:center;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:22px}.student strong{display:block;color:var(--navy);font-size:clamp(20px,1.45vw,28px)}.student span{color:var(--muted);font-size:clamp(16px,1.1vw,21px)}
-    .hero-photo{position:relative;height:84%;margin:5% 7% 5% 0;border-radius:34px 34px 34px 110px;overflow:hidden;background:#9fc9e3;box-shadow:0 25px 65px rgba(40,127,193,.25);isolation:isolate}.hero-photo:before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 42%,rgba(18,59,102,.48)),url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=85') center/cover;animation:image-reveal 1.15s cubic-bezier(.2,.8,.2,1) both;z-index:-1}.hero-photo:after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(223,243,255,.28));pointer-events:none}@keyframes image-reveal{from{clip-path:inset(0 100% 0 0);transform:scale(1.08)}to{clip-path:inset(0 0 0 0);transform:scale(1)}}.photo-caption{position:absolute;right:24px;bottom:22px;color:#fff;text-align:right;font-size:18px}.academic-strip{position:absolute;z-index:4;left:8%;bottom:4%;width:61%;display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:1px;overflow:hidden;border-radius:17px;box-shadow:var(--shadow)}.academic-strip div{min-height:74px;padding:13px;background:rgba(255,255,255,.96);display:flex;flex-direction:column;justify-content:center;font-size:16px}.academic-strip strong{color:var(--navy);font-size:17px}.academic-strip small{margin-top:3px;color:var(--muted);font-size:14px}
+    .hero { padding: 0; background: linear-gradient(120deg, #fff 0%, var(--sky) 61%, var(--light) 100%); }
+    .hero.active { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); align-items: center; gap: clamp(24px, 4vw, 56px); }
+    .hero-copy { padding: clamp(28px, 6vw, 78px); }
+    .hero h1 { max-width: 700px; margin: 14px 0 18px; color: var(--navy); font: 800 clamp(2.4rem, 5vw, 4.7rem)/1.08 'Playfair Display', serif; overflow-wrap: anywhere; }
+    .research { max-width: 660px; margin-bottom: 24px; font-size: clamp(1rem, 1.5vw, 1.28rem); line-height: 1.65; }
+    .hero-photo { min-height: 360px; height: 78%; margin: 5% 8% 5% 0; display: flex; align-items: end; padding: 28px; border-radius: 28px 28px 28px 90px; color: white; background: linear-gradient(155deg, rgba(18,59,102,.05), rgba(18,59,102,.8)), radial-gradient(ellipse at 30% 20%, #dff3ff 0 12%, transparent 13%), linear-gradient(135deg, #66b5e8, #123b66); box-shadow: 0 20px 50px rgba(40,127,193,.2); }
+    .photo-caption { font-size: .95rem; line-height: 1.6; }
+    .photo-caption strong { font: 700 clamp(1.4rem, 2vw, 2rem) 'Playfair Display', serif; }
+    .academic-strip { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; padding: 14px clamp(28px, 6vw, 78px) 25px; background: rgba(255,255,255,.62); }
+    .academic-strip strong, .academic-strip small { display: block; line-height: 1.5; }
+    .academic-strip strong { color: var(--navy); font-size: .9rem; }
+    .academic-strip small { color: var(--muted); font-size: .78rem; }
     /* Overview */
-    .overview-grid{height:calc(100% - 86px);display:grid;grid-template-columns:1.05fr .95fr 1fr;grid-template-rows:1fr 1fr;gap:14px}.profile{grid-row:1/3;overflow:hidden}.profile-photo{height:38%;position:relative;background:linear-gradient(180deg,transparent,rgba(18,59,102,.2)),url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1000&q=85') center/cover;animation:image-reveal .9s ease both}.profile-body{padding:18px}.profile-body h3,.panel-heading{margin:0 0 11px;color:var(--navy);font-size:clamp(20px,1.5vw,27px);font-weight:800}.profile-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:clamp(15px,1vw,19px);line-height:1.35}.profile-list span:before{content:'•';color:var(--ocean);margin-right:7px}.meta{margin-top:12px;color:var(--muted);font-size:clamp(15px,.95vw,18px);line-height:1.5}.instagram{padding:16px}.kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px}.kpi{padding:13px;border-radius:15px;background:var(--grey)}.kpi strong{display:block;color:var(--navy);font-size:clamp(26px,2.2vw,42px);line-height:1.05}.kpi span{display:block;margin-top:5px;color:var(--muted);font-size:clamp(15px,.92vw,18px)}.engagement{display:flex;gap:7px;margin-top:10px}.engagement span{flex:1;padding:8px 4px;border-radius:10px;background:var(--sky);text-align:center;font-size:15px}.competitor{padding:15px}.bar-row{display:grid;grid-template-columns:95px 1fr 58px;gap:8px;align-items:center;height:32px;font-size:clamp(14px,.86vw,17px)}.track{height:10px;border-radius:20px;background:#e6eef4;overflow:hidden}.fill{height:100%;width:0;border-radius:20px;background:var(--blue);transition:width 1s ease}.slide.active .fill{width:var(--w)}.bar-row.highlight .fill{background:var(--navy)}.problem{grid-column:2/4;padding:15px}.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:12px 0}.journey-step{position:relative;padding:11px 5px;border-radius:12px;background:var(--sky);color:var(--navy);text-align:center;font-weight:800;font-size:clamp(14px,.92vw,18px);animation:journey 1s ease both}.journey-step:not(:last-child):after{content:'→';position:absolute;right:-9px;color:var(--ocean);z-index:1}@keyframes journey{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}.problem-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.problem-item{padding:10px;border-radius:10px;border-left:3px solid var(--sand);background:#f6f9fb;font-size:clamp(14px,.88vw,17px);line-height:1.4}
-    /* Strategy */
-    .strategy-grid{height:calc(100% - 86px);display:grid;grid-template-columns:1fr 1.2fr 1.15fr;grid-template-rows:145px 1fr 82px;gap:12px}.scores{display:grid;grid-template-columns:1fr 1fr;gap:8px}.score{display:flex;align-items:center;justify-content:center;flex-direction:column;border-radius:15px;background:var(--navy);color:white}.score:nth-child(2){background:var(--ocean)}.score:nth-child(3){background:var(--blue)}.score strong{font-size:clamp(28px,2.2vw,42px)}.score span{font-size:16px}.swot{display:grid;grid-template-columns:1fr 1fr;gap:8px}.swot-card{padding:12px;border-radius:15px;background:#fff;border-top:4px solid var(--blue);box-shadow:0 8px 22px rgba(18,59,102,.07)}.swot-card:nth-child(2){border-color:var(--navy)}.swot-card:nth-child(3){border-color:var(--sand)}.swot-card:nth-child(4){border-color:var(--ocean)}.swot-card h3{margin:0 0 6px;color:var(--navy);font-size:20px}.swot-card p{margin:0;font-size:clamp(14px,.88vw,17px);line-height:1.42}.tows{grid-column:2;grid-row:1/3;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:9px}.tows-card{padding:14px;text-align:left;border:1px solid rgba(18,59,102,.08);border-radius:17px;background:#fff;color:var(--ink);box-shadow:0 9px 24px rgba(18,59,102,.08);transition:transform .2s,box-shadow .2s}.tows-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.tows-card strong{display:block;margin-bottom:8px;color:var(--navy);font-size:clamp(18px,1.25vw,24px)}.tows-card span{font-size:clamp(15px,.92vw,18px);line-height:1.5}.innovations{grid-column:3;grid-row:1/3;display:grid;grid-template-rows:repeat(4,1fr);gap:8px}.innovation{display:grid;grid-template-columns:42px 1fr;align-items:center;gap:10px;padding:11px;border-radius:15px;background:#fff;box-shadow:0 8px 20px rgba(18,59,102,.07)}.innovation-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--sky);color:var(--navy)}.innovation strong{display:block;color:var(--navy);font-size:clamp(15px,1vw,19px)}.innovation small{display:block;margin-top:4px;color:var(--muted);font-size:clamp(13px,.78vw,16px)}.strategy-bottom{grid-column:1/4;display:flex;align-items:center;gap:16px;padding:13px 18px;border-radius:17px;background:var(--navy);color:#fff}.strategy-bottom strong{font-size:20px}.strategy-bottom p{margin:4px 0 0;font-size:16px;line-height:1.4}.ifas-efas{margin-left:auto;white-space:nowrap;font-weight:800;font-size:18px}
-    /* Closing */
-    .closing-grid{height:calc(100% - 86px);display:grid;grid-template-columns:1.25fr .75fr;gap:16px}.conclusions{height:59%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.conclusion-card{padding:16px;border-radius:17px;background:#fff;box-shadow:var(--shadow)}.conclusion-card .num{color:var(--ocean);font-weight:800;font-size:18px}.conclusion-card h3{margin:9px 0;color:var(--navy);font-size:clamp(17px,1.2vw,23px)}.conclusion-card p{font-size:clamp(15px,.94vw,18px);line-height:1.55}.recommendations{position:absolute;left:4.2%;bottom:4%;width:52%;height:29%;padding:14px 18px;border-radius:18px;background:var(--sky)}.recommendations h3{margin:0 0 8px;color:var(--navy);font-size:22px}.checklist{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px}.checklist div{font-size:clamp(14px,.9vw,17px);line-height:1.3}.checklist div:before{content:'✓';display:inline-grid;width:19px;height:19px;place-items:center;margin-right:6px;border-radius:50%;background:#fff;color:var(--ocean);font-weight:800}.thankyou{position:relative;border-radius:26px;overflow:hidden;color:#fff;background:linear-gradient(180deg,rgba(18,59,102,.05),rgba(18,59,102,.9)),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=85') center/cover}.thankyou-content{position:absolute;z-index:1;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px}.thankyou h2{margin:8px 0;font:700 clamp(42px,4.1vw,74px)/1.05 'Playfair Display',serif}.thankyou p{font-size:clamp(16px,1.1vw,21px);line-height:1.5}.qa{padding:9px 20px;border:1px solid rgba(255,255,255,.7);border-radius:30px;font-weight:800;letter-spacing:.12em}
+    .overview-grid { display: grid; grid-template-columns: 1.05fr .95fr 1fr; grid-template-rows: repeat(2, minmax(160px, auto)); gap: 14px; }
+    .profile { grid-row: 1 / 3; }
+    .profile-photo { min-height: 125px; margin: -4px -4px 18px; border-radius: 12px; background: linear-gradient(135deg, var(--sky), var(--ocean)); }
+    .profile-list { display: grid; gap: 10px; font-size: .92rem; line-height: 1.55; }
+    .profile-list span { padding-bottom: 9px; border-bottom: 1px solid #e8eef3; }
+    .kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+    .kpi { padding: 12px 8px; border-radius: 12px; text-align: center; background: #eef8fe; }
+    .kpi strong { display: block; color: var(--navy); font-size: clamp(1.25rem, 2vw, 1.8rem); line-height: 1.2; }
+    .kpi span { display: block; margin-top: 5px; color: var(--muted); font-size: .75rem; line-height: 1.35; }
+    .bar-row { display: grid; grid-template-columns: minmax(90px, .8fr) 1.2fr; align-items: center; gap: 10px; margin: 15px 0; font-size: .84rem; line-height: 1.35; }
+    .track { height: 12px; overflow: hidden; border-radius: 99px; background: #e5eef5; }
+    .fill { width: var(--w); height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--light), var(--ocean)); }
+    .problem p { margin: 10px 0 0; font-size: .92rem; line-height: 1.6; }
+    /* Strategy and closing */
+    .strategy-grid { display: grid; grid-template-columns: minmax(190px, .8fr) minmax(0, 1.5fr); gap: 14px; }
+    .scores { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .score { padding: 14px 10px; border-radius: 12px; text-align: center; background: #eef8fe; }
+    .score strong { display: block; color: var(--navy); font-size: clamp(1.35rem, 2vw, 1.8rem); }
+    .score span { color: var(--muted); font-size: .8rem; }
+    .swot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .swot-card { padding: 16px; border-radius: 13px; background: white; border-top: 4px solid var(--ocean); }
+    .swot-card:nth-child(2) { border-color: #e19a63; }
+    .swot-card:nth-child(3) { border-color: #72a986; }
+    .swot-card:nth-child(4) { border-color: #b28fc1; }
+    .swot-card h3 { margin: 0 0 8px; color: var(--navy); font-size: .85rem; letter-spacing: .08em; }
+    .swot-card p, .strategy-bottom p { margin: 0; font-size: .88rem; line-height: 1.55; }
+    .strategy-bottom { grid-column: 1 / -1; padding: 17px 20px; border-radius: 14px; color: white; background: var(--navy); }
+    .strategy-bottom strong { display: block; margin-bottom: 5px; }
+    .closing-grid { display: grid; grid-template-columns: 1.3fr .7fr; align-items: start; gap: 16px; }
+    .conclusions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .conclusion-card { padding: 17px; border-radius: 14px; background: white; box-shadow: 0 6px 18px rgba(18,59,102,.06); }
+    .conclusion-card strong { display: block; margin-bottom: 8px; color: var(--navy); font-size: .95rem; }
+    .conclusion-card p, .recommendations li { margin: 0; color: var(--muted); font-size: .87rem; line-height: 1.6; }
+    .recommendations ul { margin: 0; padding-left: 20px; }
+    .recommendations li + li { margin-top: 10px; }
+    .closing-note { margin-top: 16px; padding: 18px; border-radius: 14px; color: var(--navy); background: var(--sky); font-weight: 700; line-height: 1.5; }
     /* Controls */
-    .progress{position:fixed;z-index:80;inset:0 auto auto 0;height:4px;width:0;background:linear-gradient(90deg,var(--light),var(--ocean));transition:width .5s}.controls{position:fixed;z-index:100;right:16px;bottom:14px;display:flex;align-items:center;gap:6px;padding:7px;border-radius:15px;background:rgba(18,59,102,.91);backdrop-filter:blur(12px);opacity:0;transform:translateY(12px);transition:.25s}.presentation:hover .controls,.controls:focus-within{opacity:1;transform:none}.controls button{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.11);color:white}.controls button:hover{background:rgba(255,255,255,.25)}.counter{min-width:52px;color:white;text-align:center;font-size:16px;font-weight:700}.laser{position:fixed;z-index:150;width:13px;height:13px;display:none;border-radius:50%;background:#ff6767;box-shadow:0 0 14px #ff6767,0 0 28px #ff6767;pointer-events:none;transform:translate(-50%,-50%)}.laser.active{display:block}.spotlight{position:fixed;z-index:90;inset:0;display:none;background:radial-gradient(circle 165px at var(--x,50%) var(--y,50%),transparent,rgba(18,59,102,.6));pointer-events:none}.spotlight.active{display:block}.overlay{position:fixed;z-index:200;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(18,59,102,.88);backdrop-filter:blur(12px)}.overlay.active{display:flex}.modal{width:min(740px,92vw);max-height:85vh;overflow:auto;padding:28px;border-radius:24px;background:white}.modal h2{color:var(--navy);font:700 34px 'Playfair Display',serif}.modal p{font-size:20px;line-height:1.6}.shortcut-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.shortcut{display:flex;justify-content:space-between;gap:12px;padding:11px;border-radius:10px;background:var(--grey);font-size:17px}kbd{padding:3px 8px;border:1px solid #d5e0e8;border-radius:6px;background:#fff;box-shadow:0 2px 0 #cbd8e1}.thumbs{position:fixed;z-index:110;left:50%;bottom:14px;display:flex;gap:8px;padding:8px;border-radius:14px;background:rgba(18,59,102,.94);opacity:0;transform:translate(-50%,20px);pointer-events:none;transition:.2s}.thumbs.open{opacity:1;transform:translate(-50%,0);pointer-events:auto}.thumb{width:100px;aspect-ratio:16/9;border:2px solid transparent;border-radius:7px;background:var(--sky);color:var(--navy);font-size:13px;font-weight:700}.thumb.selected{border-color:var(--sand)}.start-screen{position:fixed;z-index:300;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 20% 20%,rgba(169,217,245,.75),transparent 32%),radial-gradient(circle at 80% 75%,rgba(102,181,232,.4),transparent 30%),var(--grey);transition:opacity .5s,visibility .5s}.start-screen.hidden{opacity:0;visibility:hidden}.start-card{width:min(600px,90vw);padding:44px;text-align:center}.start-card h1{margin:14px 0;color:var(--navy);font:700 clamp(42px,6vw,72px) 'Playfair Display',serif}.start-card p{font-size:20px;color:var(--muted)}.start-button,.primary-button{padding:14px 24px;border-radius:30px;background:var(--navy);color:white;font-weight:800}.zoomed{transform:scale(1.1)}
-    @media(max-width:850px){.controls{opacity:1}.controls button{width:32px;height:32px}.overview-grid{gap:8px}.academic-strip{width:68%}.profile-list{font-size:14px}.strategy-grid{gap:8px}.slide{padding:3.3%}.shortcut-grid{grid-template-columns:1fr}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+    .progress { position: fixed; z-index: 20; inset: 0 auto auto 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--light), var(--ocean)); transition: width .25s ease; }
+    .controls { position: fixed; z-index: 21; left: 50%; bottom: 14px; display: flex; align-items: center; gap: 10px; transform: translateX(-50%); padding: 8px 12px; border: 1px solid rgba(18,59,102,.1); border-radius: 999px; background: rgba(255,255,255,.96); box-shadow: var(--shadow); }
+    .controls button { width: 38px; height: 38px; display: grid; place-items: center; border: 0; border-radius: 50%; color: white; background: var(--navy); font-size: 1.2rem; cursor: pointer; }
+    .controls button:hover, .controls button:focus-visible { background: var(--ocean); }
+    .counter { min-width: 52px; text-align: center; color: var(--navy); font-size: .85rem; font-weight: 700; }
+    button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+    @media (max-width: 850px) {
+      .presentation { display: block; min-height: 100vh; padding: 0 0 74px; }
+      .stage { width: 100%; height: auto; min-height: calc(100vh - 74px); overflow: visible; border-radius: 0; box-shadow: none; }
+      .slide { position: relative; inset: auto; min-height: calc(100vh - 74px); padding: 28px 22px 36px; }
+      .slide:not(.active) { display: none; }
+      .hero.active { grid-template-columns: minmax(0, 1fr); align-content: start; gap: 4px; }
+      .hero-copy { padding: 34px 24px 12px; }
+      .hero-photo { min-height: 210px; height: auto; margin: 10px 24px; border-radius: 22px 22px 22px 60px; }
+      .academic-strip { grid-template-columns: 1fr; padding: 14px 24px 24px; }
+      .overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; gap: 10px; }
+      .profile { grid-row: auto; }
+      .strategy-grid { grid-template-columns: 1fr; }
+      .strategy-bottom { grid-column: auto; }
+      .closing-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .slide { padding: 24px 16px 30px; }
+      .hero-copy { padding: 30px 20px 10px; }
+      .hero h1 { font-size: clamp(2.15rem, 10vw, 3.2rem); }
+      .hero-photo { margin: 8px 20px; }
+      .academic-strip { padding-inline: 20px; }
+      .overview-grid, .swot, .conclusions { grid-template-columns: 1fr; }
+      .profile { grid-row: auto; }
+      .kpis { gap: 6px; }
+      .kpi { padding: 10px 5px; }
+      .bar-row { grid-template-columns: 1fr; gap: 5px; }
+      .controls { bottom: 10px; }
+      .controls button { width: 36px; height: 36px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
   </style>
 </head>
 <body>
-  <div class="progress" id="progress"></div>
-  <div class="start-screen" id="startScreen"><div class="start-card card"><span class="eyebrow">Seminar PKL · 2026</span><h1>Barokah Tour</h1><p>Sky Blue Luxury Interactive Presentation</p><button class="start-button" id="startButton">Mulai Presentasi</button></div></div>
-  <main class="presentation" id="presentation"><div class="stage" id="stage"><div class="slides">
-    <section class="slide hero active" data-title="Premium Hero Cover">
-      <div class="hero-copy"><span class="eyebrow">Seminar PKL · 2026</span><h1>Seminar Praktik Kerja Lapangan</h1><p class="research">Perancangan Strategi Pemasaran Digital melalui Analisis SWOT dan TOWS sebagai Upaya Meningkatkan Efektivitas Media Sosial pada Barokah Tour.</p><div class="student"><div class="avatar">DP</div><div><strong>Dimas Prayoga</strong><span>NIM: 20240080146</span></div></div></div>
-      <div class="hero-photo"><div class="photo-caption"><strong>Explore Indonesia</strong><br>Premium Travel Experience</div></div>
-      <div class="academic-strip"><div><strong>Universitas Nusa Putra</strong><small>Program Studi Manajemen · Fakultas Ekonomi dan Bisnis</small></div><div><strong>Dosen Pembimbing</strong><small>Riyan Mirdan Faris, M.Si</small></div><div><strong>Pembimbing Lapangan</strong><small>Syifa Indah S.A, S.Si</small></div></div>
-    </section>
-    <section class="slide" data-title="Digital Marketing Overview"><span class="eyebrow">Company &amp; Digital Performance</span><h2 class="slide-title">Barokah Tour Digital Marketing Overview</h2><div class="overview-grid">
-      <article class="card profile tilt"><div class="profile-photo"></div><div class="profile-body"><h3 class="panel-heading">Company Profile</h3><div class="profile-list"><span>PT Bina Barokah Sejahtera</span><span>Berlokasi di Sukabumi</span><span>Beroperasi sejak 2015</span><span>Anggota ASITA 0704/IX/DPD/2018</span><span>Open, Private &amp; Group Trip</span><span>Bus Pariwisata</span><span>Wedding &amp; Event Organizer</span><span>MICE</span><span>Tiket Dufan &amp; Ancol</span><span>Umrah &amp; Haji</span></div><div class="meta">Segmen terbesar: <strong>Pemerintah/Instansi</strong><br>PKL: 20 Agustus–20 September 2026<br>Bidang: Digital Marketing dan Media Sosial</div></div></article>
-      <article class="card instagram tilt"><div class="eyebrow">Instagram · 22 Juli–19 Agustus 2026</div><div class="kpis" style="margin-top:11px"><div class="kpi"><strong data-count="5663">0</strong><span>Followers</span></div><div class="kpi"><strong data-count="2848">0</strong><span>Reach</span></div><div class="kpi"><strong data-count="-59">0</strong><span>Net Followers</span></div><div class="kpi"><strong data-count="382">0</strong><span>Total Interaksi</span></div></div><div class="engagement"><span><b>296</b><br>Feed</span><span><b>59</b><br>Reels</span><span><b>27</b><br>Story</span></div></article>
-      <article class="card competitor tilt"><div class="panel-heading">Competitor Followers</div><div class="bar-row"><span>Sukabumi Tours ID</span><div class="track"><div class="fill" style="--w:100%"></div></div><b>79.100</b></div><div class="bar-row"><span>Hanzal Tour</span><div class="track"><div class="fill" style="--w:16.6%"></div></div><b>13.100</b></div><div class="bar-row highlight"><span>Barokah Tour</span><div class="track"><div class="fill" style="--w:7.2%"></div></div><b>5.663</b></div><div class="bar-row"><span>Benztour</span><div class="track"><div class="fill" style="--w:3.6%"></div></div><b>2.875</b></div><div style="height:90px;margin-top:3px"><canvas id="competitorChart" aria-label="Grafik perbandingan followers kompetitor"></canvas></div></article>
-      <article class="card problem tilt"><div class="eyebrow">TikTok &amp; Customer Journey</div><small style="float:right;color:var(--muted);font-size:16px">Followers ±1.083 · Rata-rata views ±800</small><div class="journey"><div class="journey-step" style="--i:0">CONTENT</div><div class="journey-step" style="--i:1">INSTAGRAM DM</div><div class="journey-step" style="--i:2">WHATSAPP</div><div class="journey-step" style="--i:3">PENAWARAN</div><div class="journey-step" style="--i:4">BOOKING</div></div><div class="problem-list"><div class="problem-item"><b>01.</b> Variasi konten terbatas dan didominasi promosi.</div><div class="problem-item"><b>02.</b> Interaksi audiens masih rendah.</div><div class="problem-item"><b>03.</b> Pengukuran belum terhubung optimal dengan inquiry dan booking.</div></div></article>
-    </div></section>
-    <section class="slide" data-title="Strategic Analysis"><span class="eyebrow">SWOT · TOWS · Strategic Innovation</span><h2 class="slide-title">Strategic Analysis &amp; Development</h2><div class="strategy-grid">
-      <div class="scores"><div class="score"><strong>1,61</strong><span>Strength</span></div><div class="score"><strong>0,90</strong><span>Weakness</span></div><div class="score"><strong>1,33</strong><span>Opportunity</span></div><div class="score"><strong>1,00</strong><span>Threat</span></div></div>
-      <div class="swot"><article class="swot-card"><h3>STRENGTH</h3><p>Media sosial menghasilkan inquiry dan booking.<br>Database pelanggan.<br>Identitas budaya dan pendidikan.</p></article><article class="swot-card"><h3>WEAKNESS</h3><p>Engagement rendah.<br>Konten dominan promosi.<br>Pengukuran belum lengkap.</p></article><article class="swot-card"><h3>OPPORTUNITY</h3><p>Instagram Reels dan TikTok.<br>Storytelling.<br>Kolaborasi konten.</p></article><article class="swot-card"><h3>THREAT</h3><p>Kompetitor lebih besar dan konsisten.<br>Format konten kompetitor lebih beragam.</p></article></div>
-      <div class="tows"><button class="tows-card tilt" data-title="SO · Strength–Opportunity" data-detail="Optimalisasi Reels dan TikTok; content pillar budaya dan edukasi; serta pengembangan konten testimoni."><strong>SO · Growth</strong><span>Optimalisasi Reels/TikTok, konten budaya-edukasi, dan testimoni.</span></button><button class="tows-card tilt" data-title="WO · Weakness–Opportunity" data-detail="Perluas variasi content pillar, susun bank ide konten, dan gunakan dashboard KPI untuk mengukur performa."><strong>WO · Development</strong><span>Variasi content pillar, bank ide konten, dan dashboard KPI.</span></button><button class="tows-card tilt" data-title="ST · Strength–Threat" data-detail="Jadikan budaya dan pendidikan sebagai pembeda serta manfaatkan testimoni sebagai social proof."><strong>ST · Competitive</strong><span>Budaya dan pendidikan sebagai pembeda; testimoni sebagai social proof.</span></button><button class="tows-card tilt" data-title="WT · Weakness–Threat" data-detail="Tetapkan standar minimum frekuensi konten, evaluasi mingguan, dan terapkan SOP konten."><strong>WT · Defensive</strong><span>Standar minimum frekuensi, evaluasi mingguan, dan SOP konten.</span></button></div>
-      <div class="innovations"><article class="innovation card tilt"><div class="innovation-icon"><i data-lucide="clipboard-check"></i></div><div><strong>01 · SOP Konten &amp; Standar Desain</strong><small>Template, alur approval, dan konsistensi visual.</small></div></article><article class="innovation card tilt"><div class="innovation-icon"><i data-lucide="calendar-days"></i></div><div><strong>02 · Content Pillar &amp; Calendar</strong><small>Perencanaan tema dan jadwal publikasi.</small></div></article><article class="innovation card tilt"><div class="innovation-icon"><i data-lucide="chart-no-axes-combined"></i></div><div><strong>03 · Dashboard KPI Media Sosial</strong><small>Monitoring performa, inquiry, dan booking.</small></div></article><article class="innovation card tilt"><div class="innovation-icon"><i data-lucide="users-round"></i></div><div><strong>04 · CRM Pemerintah/Instansi</strong><small>Pengelolaan database dan repeat order.</small></div></article></div>
-      <div class="strategy-bottom"><i data-lucide="target"></i><div><strong>Strategic Conclusion</strong><p>Optimalisasi pemasaran digital melalui pengelolaan konten terstruktur, pengukuran performa, dan pengelolaan hubungan pelanggan.</p></div><div class="ifas-efas">IFAS 2,51 | EFAS 2,33</div></div>
-    </div></section>
-    <section class="slide" data-title="Conclusion & Recommendations"><span class="eyebrow">Conclusion &amp; Closing</span><h2 class="slide-title">Conclusion &amp; Recommendations</h2><div class="closing-grid"><div class="conclusions"><article class="conclusion-card tilt"><span class="num">01 · HASIL ANALISIS</span><h3>IFAS &amp; EFAS</h3><p>IFAS sebesar 2,51 menunjukkan kondisi internal relatif kuat, sedangkan EFAS sebesar 2,33 menunjukkan respons eksternal perlu ditingkatkan.</p></article><article class="conclusion-card tilt"><span class="num">02 · PERMASALAHAN</span><h3>Prioritas Utama</h3><p>Konten dominan promosi, interaksi rendah, variasi terbatas, dan pengukuran belum lengkap.</p></article><article class="conclusion-card tilt"><span class="num">03 · HASIL PKL</span><h3>Deliverables</h3><p>Menghasilkan rekomendasi strategi SWOT dan TOWS serta empat rancangan inovasi yang telah diserahkan kepada perusahaan.</p></article></div><aside class="thankyou"><div class="thankyou-content"><span class="eyebrow" style="color:var(--sky)">Barokah Tour</span><h2>Terima Kasih</h2><p>Atas Perhatian dan Kesempatan yang Diberikan.</p><div class="qa">TANYA JAWAB</div><p style="margin-top:22px"><b>Dimas Prayoga</b><br>20240080146</p></div></aside></div><div class="recommendations"><h3>Recommendations</h3><div class="checklist"><div>Memperbanyak variasi konten.</div><div>Menetapkan standar frekuensi dan kualitas konten serta SOP.</div><div>Evaluasi berkala menggunakan dashboard KPI.</div><div>Mencatat sumber setiap pemesanan.</div><div>Memanfaatkan database pemerintah/instansi untuk repeat order.</div></div></div></section>
-  </div></div>
-  <nav class="controls" aria-label="Kontrol presentasi"><button id="prev" title="Sebelumnya (←)" aria-label="Slide sebelumnya"><i data-lucide="chevron-left"></i></button><span class="counter" id="counter">1 / 4</span><button id="next" title="Berikutnya (→ / Space)" aria-label="Slide berikutnya"><i data-lucide="chevron-right"></i></button><button id="thumbToggle" title="Navigasi slide (T)" aria-label="Navigasi slide"><i data-lucide="layout-grid"></i></button><button id="presenter" title="Presenter mode (P)" aria-label="Presenter mode"><i data-lucide="presentation"></i></button><button id="laserToggle" title="Laser pointer (L)" aria-label="Laser pointer"><i data-lucide="mouse-pointer-2"></i></button><button id="spotToggle" title="Spotlight (O)" aria-label="Spotlight"><i data-lucide="focus"></i></button><button id="full" title="Fullscreen (F)" aria-label="Fullscreen"><i data-lucide="maximize"></i></button><button id="help" title="Bantuan keyboard (?)" aria-label="Bantuan"><i data-lucide="circle-help"></i></button></nav>
-  <div class="thumbs" id="thumbs"></div><div class="spotlight" id="spotlight"></div><div class="laser" id="laser"></div>
-  <div class="overlay" id="modal"><div class="modal" id="modalContent"><h2>Keyboard shortcuts</h2><div class="shortcut-grid"><div class="shortcut"><span>Slide berikutnya</span><kbd>→ / Space</kbd></div><div class="shortcut"><span>Slide sebelumnya</span><kbd>←</kbd></div><div class="shortcut"><span>Slide pertama / terakhir</span><kbd>Home / End</kbd></div><div class="shortcut"><span>Fullscreen</span><kbd>F</kbd></div><div class="shortcut"><span>Presenter mode</span><kbd>P</kbd></div><div class="shortcut"><span>Laser pointer</span><kbd>L</kbd></div><div class="shortcut"><span>Spotlight</span><kbd>O</kbd></div><div class="shortcut"><span>Thumbnail navigator</span><kbd>T</kbd></div><div class="shortcut"><span>Tutup / keluar mode</span><kbd>Esc</kbd></div></div><p style="margin:18px 0 0;color:var(--muted)">Presenter mode membuka jendela kontrol terpisah jika browser mengizinkan pop-up.</p></div></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <main class="presentation">
+    <div class="stage" aria-live="polite">
+      <section class="slide hero active" data-title="Pembuka">
+        <div class="hero-copy">
+          <span class="eyebrow">Seminar PKL · 2026</span>
+          <h1>Seminar Praktik Kerja Lapangan</h1>
+          <p class="research">Perancangan Strategi Pemasaran Digital melalui Analisis SWOT pada Barokah Tour.</p>
+        </div>
+        <div class="hero-photo" role="img" aria-label="Ilustrasi pengalaman perjalanan">
+          <div class="photo-caption"><strong>Explore Indonesia</strong><br>Premium Travel Experience</div>
+        </div>
+        <div class="academic-strip">
+          <div><strong>Universitas Nusa Putra</strong><small>Program Studi Manajemen · Fakultas Ekonomi dan Bisnis</small></div>
+          <div><strong>Seminar Praktik Kerja Lapangan</strong><small>Barokah Tour · 2026</small></div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Digital Marketing Overview">
+        <span class="eyebrow">Company &amp; Digital Performance</span>
+        <h2 class="slide-title">Barokah Tour Digital Marketing Overview</h2>
+        <div class="overview-grid">
+          <article class="card profile">
+            <div class="profile-photo" aria-hidden="true"></div>
+            <h3 class="panel-heading">Company Profile</h3>
+            <div class="profile-list">
+              <span><strong>Nama:</strong> PT Bina Barokah Sejahtera (Barokah Tour)</span>
+              <span><strong>Bidang:</strong> Layanan perjalanan dan wisata</span>
+              <span><strong>Fokus:</strong> Pengalaman perjalanan yang nyaman dan berkesan</span>
+            </div>
+          </article>
+          <article class="card">
+            <span class="eyebrow">Instagram · 22 Juli–19 Agustus 2026</span>
+            <h3 class="panel-heading" style="margin-top:10px">Performa Digital</h3>
+            <div class="kpis">
+              <div class="kpi"><strong>5.663</strong><span>Jangkauan akun</span></div>
+              <div class="kpi"><strong>1.083</strong><span>Followers TikTok</span></div>
+              <div class="kpi"><strong>+</strong><span>Peluang inquiry</span></div>
+            </div>
+          </article>
+          <article class="card competitor">
+            <h3 class="panel-heading">Competitor Followers</h3>
+            <div class="bar-row"><span>Sukabumi Tours ID</span><div class="track" aria-label="Perbandingan kompetitor"><div class="fill" style="--w:82%"></div></div></div>
+            <div class="bar-row"><span>Barokah Tour</span><div class="track"><div class="fill" style="--w:54%"></div></div></div>
+            <p class="muted" style="font-size:.82rem;line-height:1.5">Konsistensi konten dan interaksi menjadi peluang untuk memperkuat daya saing.</p>
+          </article>
+          <article class="card problem">
+            <span class="eyebrow">TikTok &amp; Customer Journey</span>
+            <h3 class="panel-heading" style="margin-top:10px">Peluang Pengembangan</h3>
+            <p>Perkuat konten yang menarik perhatian, menjawab kebutuhan calon pelanggan, dan mengarahkan mereka untuk bertanya hingga melakukan booking.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Strategic Analysis">
+        <span class="eyebrow">SWOT · TOWS · Strategic Innovation</span>
+        <h2 class="slide-title">Strategic Analysis &amp; Development</h2>
+        <div class="strategy-grid">
+          <div class="scores" aria-label="Skor analisis SWOT">
+            <div class="score"><strong>1,61</strong><span>Strength</span></div>
+            <div class="score"><strong>0,90</strong><span>Weakness</span></div>
+            <div class="score"><strong>1,33</strong><span>Opportunity</span></div>
+            <div class="score"><strong>0,57</strong><span>Threat</span></div>
+          </div>
+          <div class="swot">
+            <article class="swot-card"><h3>STRENGTH</h3><p>Media sosial menghasilkan inquiry dan booking. Memiliki database pelanggan serta identitas budaya dan pendidikan.</p></article>
+            <article class="swot-card"><h3>WEAKNESS</h3><p>Pengelolaan konten dan standar desain perlu dibuat lebih konsisten dan terukur.</p></article>
+            <article class="swot-card"><h3>OPPORTUNITY</h3><p>Reels dan TikTok membuka peluang menjangkau audiens melalui konten budaya dan edukasi.</p></article>
+            <article class="swot-card"><h3>THREAT</h3><p>Persaingan digital menuntut diferensiasi, respons cepat, dan kualitas layanan yang terjaga.</p></article>
+          </div>
+          <div class="strategy-bottom"><strong>Strategic Conclusion</strong><p>Optimalisasi pemasaran digital melalui pengelolaan konten terstruktur, pengukuran performa, dan penguatan customer journey.</p></div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Conclusion & Recommendations">
+        <span class="eyebrow">Conclusion &amp; Closing</span>
+        <h2 class="slide-title">Conclusion &amp; Recommendations</h2>
+        <div class="closing-grid">
+          <div>
+            <div class="conclusions">
+              <article class="conclusion-card"><strong>Konten terarah</strong><p>Susun pilar konten yang konsisten, relevan, dan mencerminkan keunikan Barokah Tour.</p></article>
+              <article class="conclusion-card"><strong>Performa terukur</strong><p>Pantau jangkauan, interaksi, inquiry, dan booking secara berkala.</p></article>
+              <article class="conclusion-card"><strong>Layanan terhubung</strong><p>Arahkan audiens dari konten menuju komunikasi dan proses pemesanan yang jelas.</p></article>
+            </div>
+            <div class="closing-note">Terima kasih — semoga strategi ini mendukung pertumbuhan Barokah Tour.</div>
+          </div>
+          <article class="card recommendations">
+            <h3 class="panel-heading">Rekomendasi</h3>
+            <ul>
+              <li>Terapkan SOP konten dan standar desain.</li>
+              <li>Optimalkan Reels dan TikTok dengan konten budaya serta edukasi.</li>
+              <li>Evaluasi insight dan respons audiens secara rutin.</li>
+              <li>Gunakan database pelanggan untuk komunikasi yang relevan.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
   </main>
+  <nav class="controls" aria-label="Kontrol presentasi">
+    <button id="prev" type="button" aria-label="Slide sebelumnya" title="Sebelumnya (←)">‹</button>
+    <span class="counter" id="counter" aria-live="polite">1 / 4</span>
+    <button id="next" type="button" aria-label="Slide berikutnya" title="Berikutnya (→)">›</button>
+  </nav>
   <script>
-    lucide.createIcons();
-    const slides=[...document.querySelectorAll('.slide')],counter=document.getElementById('counter'),progress=document.getElementById('progress'),thumbs=document.getElementById('thumbs'),modal=document.getElementById('modal'),modalContent=document.getElementById('modalContent'),stage=document.getElementById('stage');let index=0,laserOn=false,spotOn=false,chartMade=false,presenterWindow=null;
-    slides.forEach((s,i)=>{const b=document.createElement('button');b.className='thumb';b.textContent=`${i+1} · ${s.dataset.title}`;b.onclick=()=>go(i);thumbs.appendChild(b)});const thumbButtons=[...thumbs.children];
-    function go(i){index=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,n)=>s.classList.toggle('active',n===index));thumbButtons.forEach((b,n)=>b.classList.toggle('selected',n===index));counter.textContent=`${index+1} / ${slides.length}`;progress.style.width=`${(index+1)/slides.length*100}%`;countKpis();if(index===1)drawChart();updatePresenter()}
-    function countKpis(){slides[index].querySelectorAll('[data-count]').forEach(el=>{if(el.dataset.done)return;el.dataset.done='1';const target=Number(el.dataset.count),start=performance.now(),duration=1000;function tick(now){const p=Math.min(1,(now-start)/duration),v=Math.round(target*(1-Math.pow(1-p,3)));el.textContent=v.toLocaleString('id-ID');if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)})}
-    function drawChart(){if(chartMade||!window.Chart)return;const canvas=document.getElementById('competitorChart');if(!canvas)return;chartMade=true;new Chart(canvas,{type:'bar',data:{labels:['Sukabumi Tours ID','Hanzal Tour','Barokah Tour','Benztour'],datasets:[{data:[79100,13100,5663,2875],backgroundColor:['#a9d9f5','#66b5e8','#123b66','#a9d9f5'],borderRadius:7,barThickness:14}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:{duration:900},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw.toLocaleString('id-ID')} followers`}}},scales:{x:{display:false,beginAtZero:true,grid:{display:false}},y:{ticks:{font:{size:10},color:'#123b66'},grid:{display:false}}}}})}
-    function next(){go(index===slides.length-1?0:index+1)}function prev(){go(index===0?slides.length-1:index-1)}
-    document.getElementById('next').onclick=next;document.getElementById('prev').onclick=prev;document.getElementById('startButton').onclick=()=>{document.getElementById('startScreen').classList.add('hidden');countKpis()};
-    document.getElementById('thumbToggle').onclick=()=>thumbs.classList.toggle('open');document.getElementById('full').onclick=()=>document.fullscreenElement?document.exitFullscreen?.():document.documentElement.requestFullscreen?.();
-    function toggleLaser(){laserOn=!laserOn;document.getElementById('laser').classList.toggle('active',laserOn)}function toggleSpot(){spotOn=!spotOn;document.getElementById('spotlight').classList.toggle('active',spotOn)}document.getElementById('laserToggle').onclick=toggleLaser;document.getElementById('spotToggle').onclick=toggleSpot;
-    document.addEventListener('mousemove',e=>{const dot=document.getElementById('laser');if(laserOn){dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px'}if(spotOn){const s=document.getElementById('spotlight');s.style.setProperty('--x',e.clientX+'px');s.style.setProperty('--y',e.clientY+'px')}});
-    function showHelp(){modalContent.innerHTML='<h2>Keyboard shortcuts</h2><div class="shortcut-grid"><div class="shortcut"><span>Slide berikutnya</span><kbd>→ / Space</kbd></div><div class="shortcut"><span>Slide sebelumnya</span><kbd>←</kbd></div><div class="shortcut"><span>Slide pertama / terakhir</span><kbd>Home / End</kbd></div><div class="shortcut"><span>Fullscreen</span><kbd>F</kbd></div><div class="shortcut"><span>Presenter mode</span><kbd>P</kbd></div><div class="shortcut"><span>Laser pointer</span><kbd>L</kbd></div><div class="shortcut"><span>Spotlight</span><kbd>O</kbd></div><div class="shortcut"><span>Thumbnail navigator</span><kbd>T</kbd></div><div class="shortcut"><span>Tutup / keluar mode</span><kbd>Esc</kbd></div></div>';modal.classList.add('active')}document.getElementById('help').onclick=showHelp;modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('active')});
-    document.querySelectorAll('.tows-card').forEach(button=>button.addEventListener('click',()=>{modalContent.innerHTML=`<h2>${button.dataset.title}</h2><p>${button.dataset.detail}</p><button class="primary-button" id="closeDetail">Tutup</button>`;modal.classList.add('active');document.getElementById('closeDetail').onclick=()=>modal.classList.remove('active')}));
-    function presenterMode(){if(presenterWindow&&!presenterWindow.closed){presenterWindow.focus();return}presenterWindow=window.open('','barokah-presenter','width=980,height=720');if(!presenterWindow){modalContent.innerHTML='<h2>Presenter mode</h2><p>Browser memblokir jendela presenter. Izinkan pop-up untuk mode dua layar.</p>';modal.classList.add('active');return}updatePresenter()}
-    function updatePresenter(){if(presenterWindow&&!presenterWindow.closed){presenterWindow.postMessage({type:'update',index},'*')}}window.addEventListener('message',e=>{if(e.data==='next')next();if(e.data==='prev')prev();if(e.data?.type==='update')go(e.data.index)});document.getElementById('presenter').onclick=presenterMode;
-    document.querySelectorAll('.tilt').forEach(el=>{el.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(900px) rotateY(${x*3.5}deg) rotateX(${-y*3.5}deg) translateY(-2px)`});el.addEventListener('pointerleave',()=>el.style.transform='')});
-    document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))return;if(e.key==='ArrowRight'||e.code==='Space'){e.preventDefault();next()}else if(e.key==='ArrowLeft')prev();else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen?.():document.documentElement.requestFullscreen?.()}else if(e.key.toLowerCase()==='p')presenterMode();else if(e.key.toLowerCase()==='l')toggleLaser();else if(e.key.toLowerCase()==='o')toggleSpot();else if(e.key.toLowerCase()==='t')thumbs.classList.toggle('open');else if(e.key==='?')showHelp();else if(e.key==='Escape'){modal.classList.remove('active');thumbs.classList.remove('open');laserOn=false;spotOn=false;document.getElementById('laser').classList.remove('active');document.getElementById('spotlight').classList.remove('active');if(document.fullscreenElement)document.exitFullscreen?.()}});
-    go(0);
+    (() => {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const counter = document.getElementById('counter');
+      const progress = document.getElementById('progress');
+      let index = 0;
+      function showSlide(nextIndex) {
+        index = (nextIndex + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === index);
+          slide.setAttribute('aria-hidden', String(i !== index));
+          if (i === index) slide.scrollTop = 0;
+        });
+        counter.textContent = `${index + 1} / ${slides.length}`;
+        progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+      }
+      document.getElementById('prev').addEventListener('click', () => showSlide(index - 1));
+      document.getElementById('next').addEventListener('click', () => showSlide(index + 1));
+      document.addEventListener('keydown', event => {
+        if (event.altKey || event.ctrlKey || event.metaKey || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+        if (event.key === 'ArrowRight' || event.code === 'Space') { event.preventDefault(); showSlide(index + 1); }
+        else if (event.key === 'ArrowLeft') { event.preventDefault(); showSlide(index - 1); }
+      });
+      showSlide(0);
+    })();
   </script>
 </body>
 </html>
